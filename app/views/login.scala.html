@@ -1,0 +1,15 @@
+@import helper._
+@import forms.LoginForm
+
+@(loginForm: play.api.data.Form[LoginForm])(implicit messagesProvider: play.api.i18n.MessagesProvider))
+
+@main("Scala Play tutorial") {
+<h1>Login</h1>
+
+@form(action = routes.LoginController.login()) {
+@inputText(loginForm("loginId"))
+@inputText(loginForm("password"))
+
+<input type="submit" value="Submit">
+}
+}
