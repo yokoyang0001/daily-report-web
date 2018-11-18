@@ -9,6 +9,6 @@ import play.api.mvc._
 class HomeController @Inject()(cc: ControllerComponents) extends AbstractController(cc) with play.api.i18n.I18nSupport {
 
   def index() = Action { implicit request: Request[AnyContent] =>
-    Ok(views.html.index())
+    Ok(views.html.index("Daily Report"))
   }
 }

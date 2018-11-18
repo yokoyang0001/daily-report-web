@@ -1,5 +1,5 @@
-@()
-
-@main("Welcome to Play forms") {
-  <h1>Welcome to Play forms!</h1>
+@(message: String)
+@main("Home | Daily Report") {
+  <h1>@message</h1>
+  <a href="/login">Login</a>
 }

@@ -8,10 +8,10 @@ lazy val root = (project in file(".")).enablePlugins(PlayScala, PlayJava, PlayEb
 scalaVersion := "2.12.6"
 
 libraryDependencies ++= Seq(
-  javaJdbc,
+  jdbc,
   guice,
+  ehcache,
   "org.scalatestplus.play" %% "scalatestplus-play" % "3.1.2" % Test,
-  cache,
-  javaWs,
+  ws,
   "mysql" % "mysql-connector-java" % "5.1.36"
 )

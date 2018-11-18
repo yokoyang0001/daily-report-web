@@ -17,7 +17,7 @@ class LoginController @Inject()(cc: ControllerComponents) extends AbstractContro
         BadRequest(views.html.login(formWithErrors))
       },
       formData => {
-        Ok(formData.toString)
+        Ok(views.html.index("Login success"))
       }
     )
   }
