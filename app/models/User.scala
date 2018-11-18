@@ -2,6 +2,8 @@ package models
 
 import dao.Dao
 import javax.persistence._
+import org.mindrot.jbcrypt.BCrypt
+
 import scala.beans.BeanProperty
 
 @Entity
@@ -34,6 +36,11 @@ object User extends Dao(classOf[User]) {
 
   def unapply(user: User): Option[(String, String, String)] = Some((user.getLoginId, user.getPassword, user.getName))
 
-  def authenticate(username: String, password: String): User =
-    find().where().eq("username", username).eq("password", password).findOne()
+  def authenticate(loginId: String, password: String): User = {
+    val user = find().where().eq("loginId", loginId).findOne()
+    if (user != null && BCrypt.checkpw(password, user.password)) {
+      return user
+    }
+    null
+  }
 }

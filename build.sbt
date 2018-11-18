@@ -13,5 +13,6 @@ libraryDependencies ++= Seq(
   ehcache,
   "org.scalatestplus.play" %% "scalatestplus-play" % "3.1.2" % Test,
   ws,
+  "org.mindrot" % "jbcrypt" % "0.4",
   "mysql" % "mysql-connector-java" % "5.1.36"
 )

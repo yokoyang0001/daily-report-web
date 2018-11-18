@@ -3,6 +3,7 @@ package controllers
 import forms.LoginForm
 import javax.inject.Inject
 import javax.inject.Singleton
+import models.User
 import play.api.mvc._
 
 @Singleton
@@ -17,7 +18,12 @@ class LoginController @Inject()(cc: ControllerComponents) extends AbstractContro
         BadRequest(views.html.login(formWithErrors))
       },
       formData => {
-        Ok(views.html.index("Login success"))
+        val user = User.authenticate(formData.loginId, formData.password)
+        if (user != null) {
+          Ok(views.html.index("Login success"))
+        } else {
+          Ok(views.html.index("Login failure"))
+        }
       }
     )
   }
