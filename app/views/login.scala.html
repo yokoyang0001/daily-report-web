@@ -1,7 +1,7 @@
 @import helper._
 @import forms.LoginForm
 
-@(loginForm: Form[LoginForm])(implicit messages: Messages)
+@(loginForm: play.api.data.Form[LoginForm])(implicit messagesProvider: play.api.i18n.MessagesProvider))
 
 @main("Scala Play tutorial") {
 <h1>Login</h1>

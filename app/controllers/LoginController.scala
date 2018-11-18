@@ -14,7 +14,6 @@ class LoginController @Inject()(cc: ControllerComponents) extends AbstractContro
   def login() = Action { implicit request =>
     LoginForm.form.bindFromRequest.fold(
       formWithErrors => {
-        // binding failure, you retrieve the form containing errors:
         BadRequest(views.html.login(formWithErrors))
       },
       formData => {
