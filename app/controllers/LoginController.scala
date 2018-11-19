@@ -34,4 +34,8 @@ class LoginController @Inject()(cc: ControllerComponents) extends AbstractContro
       }
     )
   }
+
+  def logout = Action {
+    Redirect(routes.LoginController.index()).withNewSession
+  }
 }
