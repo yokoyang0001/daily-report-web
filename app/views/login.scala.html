@@ -1,12 +1,14 @@
 @import helper._
-@import forms.LoginForm
+@import scala.concurrent.ExecutionContext
 
-@(loginForm: play.api.data.Form[LoginForm])(implicit messagesProvider: play.api.i18n.MessagesProvider)
+@(csrf: String, errorMessage: String)
 
 @main("Login | Daily Report") {
 <h1>Login</h1>
 
 @form(action = routes.LoginController.login()) {
+<input type="hidden" name="csrfToken" value="@csrf"/>
+<p>@errorMessage</p>
 <input name="loginId" type="text"><br>
 <input name="password" type="password"><br>
 <input type="submit" value="Submit">

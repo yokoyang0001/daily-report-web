@@ -26,6 +26,8 @@ class User {
 }
 
 object User extends Dao(classOf[User]) {
+  val SESSION_USER_ID_KEY: String = "userId"
+
   def apply(loginId: String, password: String, name: String): User = {
     val user = new User()
     user.setLoginId(loginId)

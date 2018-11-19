@@ -5,24 +5,31 @@ import javax.inject.Inject
 import javax.inject.Singleton
 import models.User
 import play.api.mvc._
+import play.filters.csrf.CSRF
 
 @Singleton
-class LoginController @Inject()(cc: ControllerComponents) extends AbstractController(cc) with play.api.i18n.I18nSupport {
-  def index() = Action { implicit request: Request[AnyContent] =>
-    Ok(views.html.login(LoginForm.form))
+class LoginController @Inject()(cc: ControllerComponents) extends AbstractController(cc) {
+  def index() = Action { implicit request =>
+    val token: Option[CSRF.Token] = CSRF.getToken
+    val errorMessage: String = ""
+    Ok(views.html.login(token.get.value, errorMessage))
   }
 
   def login() = Action { implicit request =>
     LoginForm.form.bindFromRequest.fold(
       formWithErrors => {
-        BadRequest(views.html.login(formWithErrors))
+        val token: Option[CSRF.Token] = CSRF.getToken
+        val errorMessage: String = "Login ID or password is incorrect"
+        BadRequest(views.html.login(token.get.value, errorMessage))
       },
       formData => {
         val user = User.authenticate(formData.loginId, formData.password)
         if (user != null) {
-          Ok(views.html.index("Login success"))
+          Redirect(routes.HomeController.index()).withSession(User.SESSION_USER_ID_KEY -> String.valueOf(user.id))
         } else {
-          Ok(views.html.index("Login failure"))
+          val token: Option[CSRF.Token] = CSRF.getToken
+          val errorMessage: String = "Login ID or password is incorrect"
+          Ok(views.html.login(token.get.value, errorMessage))
         }
       }
     )
