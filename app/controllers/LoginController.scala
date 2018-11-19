@@ -35,7 +35,9 @@ class LoginController @Inject()(cc: ControllerComponents) extends AbstractContro
     )
   }
 
-  def logout = Action {
-    Redirect(routes.LoginController.index()).withNewSession
+  def logout = Action { implicit request =>
+    val token: Option[CSRF.Token] = CSRF.getToken
+    val errorMessage: String = "Login ID or password is incorrect"
+    Redirect(routes.LoginController.index())
   }
 }
