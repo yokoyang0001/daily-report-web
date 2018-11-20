@@ -1,7 +1,8 @@
 package controllers
 
 import java.text.SimpleDateFormat
-import forms.{ReportForm, ReportUpdateForm}
+
+import forms.{ReportDeleteForm, ReportForm, ReportUpdateForm}
 import javax.inject.{Inject, Singleton}
 import models.{Report, User}
 import play.api.mvc._
@@ -20,7 +21,9 @@ class ReportController @Inject()(
 
   def detail(id: Long) = authenticatedController { implicit request: Request[AnyContent] =>
     val report = Report.find(id)
-    Ok(views.html.report_detail(report))
+    val token: Option[CSRF.Token] = CSRF.getToken
+    val errorMessage: String = ""
+    Ok(views.html.report_detail(report, token.get.value, errorMessage))
   }
 
   def create() = authenticatedController { implicit request =>
@@ -84,6 +87,26 @@ class ReportController @Inject()(
         } else {
           val token: Option[CSRF.Token] = CSRF.getToken
           val errorMessage: String = "Login ID or password is incorrect"
+          Ok(views.html.report_create(token.get.value, errorMessage))
+        }
+      }
+    )
+  }
+
+  def delete() = authenticatedController { implicit request =>
+    ReportDeleteForm.form.bindFromRequest.fold(
+      formWithErrors => {
+        Redirect(routes.ReportController.detail(formWithErrors.value.get.id))
+      },
+      formData => {
+        val report = Report.find(formData.id)
+        Report.delete(report)
+        val reports = Report.find().findList()
+        if (reports != null) {
+          Redirect(routes.ReportController.index())
+        } else {
+          val token: Option[CSRF.Token] = CSRF.getToken
+          val errorMessage: String = "Error Delete Report"
           Ok(views.html.report_create(token.get.value, errorMessage))
         }
       }

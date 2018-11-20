@@ -1,11 +1,17 @@
 @import helper._
 @import scala.concurrent.ExecutionContext
 
-@(report: Report)
+@(report: Report, csrf: String, errorMessage: String)
 
 @main("Report Detail | Daily Report") {
 <p>@report.id</p>
 <p>@report.content</p>
 <p>@report.workAt</p>
 <a href="/reports/@report.id/edit">edit</a>
+@form(action = routes.ReportController.delete()) {
+<input type="hidden" name="csrfToken" value="@csrf"/>
+<input type="hidden" name="id" value="@report.id"/>
+<p>@errorMessage</p>
+<input type="submit" value="delete">
+}
 }
