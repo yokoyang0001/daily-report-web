@@ -1,0 +1,11 @@
+@import helper._
+@import scala.concurrent.ExecutionContext
+
+@(report: Report)
+
+@main("Report Detail | Daily Report") {
+<p>@report.id</p>
+<p>@report.content</p>
+<p>@report.workAt</p>
+<a href="/reports/@report.id/edit">edit</a>
+}

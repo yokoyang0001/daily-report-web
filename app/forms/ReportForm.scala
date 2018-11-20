@@ -14,3 +14,14 @@ object ReportForm {
   )
 }
 
+case class ReportUpdateForm(id: Long, content: String, workAt: String)
+
+object ReportUpdateForm {
+  val form: Form[ReportUpdateForm] = Form(
+    mapping(
+      "id" -> longNumber,
+      "content" -> text,
+      "workAt" -> text,
+    )(ReportUpdateForm.apply)(ReportUpdateForm.unapply)
+  )
+}
