@@ -3,7 +3,6 @@ package controllers
 import javax.inject.Inject
 import play.api.mvc.Results._
 import play.api.mvc._
-import play.filters.csrf.CSRF
 
 import scala.concurrent.{ExecutionContext, Future}
 
