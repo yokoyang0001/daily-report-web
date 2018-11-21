@@ -27,6 +27,10 @@ class User {
   @BeanProperty
   var name: String = _
 
+  @Column(nullable = false)
+  @BeanProperty
+  var role: Int = _
+
   @Column
   @BeanProperty
   var lastLoginAt = new Date
@@ -43,21 +47,9 @@ class User {
 object User extends Dao(classOf[User]) {
   val SESSION_USER_ID_KEY: String = "userId"
 
-  def apply(
-             loginId: String,
-             password: String,
-             name: String,
-             lastLoginAt: Date,
-           ): User = {
-    val user = new User()
-    user.setLoginId(loginId)
-    user.setPassword(password)
-    user.setName(name)
-    user.setLastLoginAt(lastLoginAt)
-    user
-  }
-
-  def unapply(user: User): Option[(String, String, String, Date)] = Some((user.getLoginId, user.getPassword, user.getName, user.getLastLoginAt))
+  val ROLE_ADMIN: Int = 0
+  val ROLE_READER: Int = 1
+  val ROLE_MEMBER: Int = 2
 
   def authenticate(loginId: String, password: String): User = {
     val user = find().where().eq("loginId", loginId).findOne()
