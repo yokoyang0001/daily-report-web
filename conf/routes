@@ -4,12 +4,18 @@ GET     /login                      controllers.LoginController.index
 POST    /login                      controllers.LoginController.login
 GET     /logout                     controllers.LoginController.logout
 GET     /users                      controllers.UserController.index
+POST    /users/update               controllers.UserController.update
+GET     /users/create               controllers.UserController.create
+POST    /users/register             controllers.UserController.register
+POST    /users/delete               controllers.UserController.delete
+GET     /users/:id                  controllers.UserController.detail(id: Long)
+GET     /users/:id/edit             controllers.UserController.edit(id: Long)
 GET     /reports                    controllers.ReportController.index
-GET     /reports/:id                controllers.ReportController.detail(id: Long)
-GET     /reports/:id/edit           controllers.ReportController.edit(id: Long)
 POST    /reports/update             controllers.ReportController.update
 GET     /reports/create             controllers.ReportController.create
 POST    /reports/register           controllers.ReportController.register
 POST    /reports/delete             controllers.ReportController.delete
+GET     /reports/:id                controllers.ReportController.detail(id: Long)
+GET     /reports/:id/edit           controllers.ReportController.edit(id: Long)
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)

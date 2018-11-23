@@ -39,7 +39,7 @@ class User {
   @CreatedTimestamp
   var createdAt = new Date
 
-  @Column(nullable = false)
+  @Column(nullable = true)
   @UpdatedTimestamp
   var updatedAt = new Date
 }

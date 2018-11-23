@@ -1,0 +1,18 @@
+@import helper._
+@import scala.concurrent.ExecutionContext
+
+@(user: User, csrf: String, errorMessage: String)
+
+@main("User Detail | Daily user") {
+<p>@user.id</p>
+<p>@user.name</p>
+<p>@user.role</p>
+
+<a href="/users/@user.id/edit">edit</a>
+@form(action = routes.UserController.delete()) {
+<input type="hidden" name="csrfToken" value="@csrf"/>
+<input type="hidden" name="id" value="@user.id"/>
+<p>@errorMessage</p>
+<input type="submit" value="delete">
+}
+}
