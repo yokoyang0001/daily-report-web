@@ -22,6 +22,10 @@ class Project {
   @BeanProperty
   var content: String = _
 
+  @OneToMany(mappedBy = "project")
+  @BeanProperty
+  var users: java.util.List[ProjectUser] = new java.util.ArrayList[ProjectUser]
+
   @Column(nullable = false)
   @CreatedTimestamp
   var createdAt = new Date

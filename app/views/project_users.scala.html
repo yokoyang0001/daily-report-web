@@ -1,0 +1,53 @@
+@import helper._
+@import scala.concurrent.ExecutionContext
+
+@(project: Project, users: List[User], csrf: String, errorMessage: String)
+
+@main("Project User Detail | Daily Report") {
+<h1>Report Review</h1>
+<p>@project.id</p>
+<p>@project.name</p>
+<p>assign user</p>
+<table border="1">
+    <tr>
+        <th>ID</th>
+        <th>name</th>
+        <th></th>
+    </tr>
+@for(user <- project.users){
+<tr>
+    <td>@user.id</td>
+    <td>@user.user.name</td>
+    <td>
+        @form(action = routes.ProjectController.userWithdraw()) {
+            <input type="hidden" name="csrfToken" value="@csrf"/>
+            <input type="hidden" name="id" value="@user.id"/>
+            <input type="submit" value="withdraw">
+        }
+    </td>
+</tr>
+}
+</table>
+<p>non assign user</p>
+<table border="1">
+    <tr>
+        <th>ID</th>
+        <th>name</th>
+        <th></th>
+    </tr>
+@for(user <- users){
+<tr>
+    <td>@user.id</td>
+    <td>@user.name</td>
+    <td>
+        @form(action = routes.ProjectController.userAssign()) {
+            <input type="hidden" name="csrfToken" value="@csrf"/>
+            <input type="hidden" name="projectId" value="@project.id"/>
+            <input type="hidden" name="userId" value="@user.id"/>
+            <input type="submit" value="assign">
+        }
+    </td>
+</tr>
+}
+</table>
+}

@@ -1,0 +1,16 @@
+@import helper._
+@import scala.concurrent.ExecutionContext
+
+@(csrf: String, errorMessage: String)
+
+@main("Report Create | Daily Report") {
+<h1>Login</h1>
+
+@form(action = routes.ProjectController.register()) {
+<input type="hidden" name="csrfToken" value="@csrf"/>
+<p>@errorMessage</p>
+<input name="name" type="text"><br>
+<textarea name="content"></textarea><br>
+<input type="submit" value="Submit">
+}
+}

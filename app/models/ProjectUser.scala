@@ -14,13 +14,12 @@ class ProjectUser {
   @Id
   var id: Long = _
 
-  @JoinColumn(name = "user_id", insertable = false, updatable = false)
+  @JoinColumn(name = "user_id")
   @ManyToOne
   @BeanProperty
   var user: User = _
 
-  @MapsId("projectId")
-  @JoinColumn(name="project_id", insertable = false, updatable = false)
+  @JoinColumn(name="project_id")
   @ManyToOne
   @BeanProperty
   var project: Project = _

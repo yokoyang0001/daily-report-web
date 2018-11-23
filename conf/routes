@@ -19,5 +19,15 @@ POST    /reports/review             controllers.ReportController.reviewPost
 GET     /reports/:id                controllers.ReportController.detail(id: Long)
 GET     /reports/:id/edit           controllers.ReportController.edit(id: Long)
 GET     /reports/:id/review         controllers.ReportController.review(id: Long)
+GET     /projects                   controllers.ProjectController.index
+POST    /projects/update            controllers.ProjectController.update
+GET     /projects/create            controllers.ProjectController.create
+POST    /projects/register          controllers.ProjectController.register
+POST    /projects/delete            controllers.ProjectController.delete
+POST    /projects/user/assign       controllers.ProjectController.userAssign
+POST    /projects/user/withdraw     controllers.ProjectController.userWithdraw
+GET     /projects/:id               controllers.ProjectController.detail(id: Long)
+GET     /projects/:id/edit          controllers.ProjectController.edit(id: Long)
+GET     /projects/:id/user          controllers.ProjectController.user(id: Long)
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)
