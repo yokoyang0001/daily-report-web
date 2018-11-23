@@ -2,9 +2,9 @@ package controllers
 
 import java.text.SimpleDateFormat
 
-import forms.{ReportDeleteForm, ReportForm, ReportUpdateForm}
+import forms.{ReportDeleteForm, ReportForm, ReportReviewForm, ReportUpdateForm}
 import javax.inject.{Inject, Singleton}
-import models.{Report, User}
+import models.{Report, ReportReview, User}
 import play.api.mvc._
 import play.filters.csrf.CSRF
 
@@ -109,6 +109,35 @@ class ReportController @Inject()(
           val errorMessage: String = "Error Delete Report"
           Ok(views.html.report_create(token.get.value, errorMessage))
         }
+      }
+    )
+  }
+
+  def review(id: Long) = authenticatedController { implicit request =>
+    val token: Option[CSRF.Token] = CSRF.getToken
+    val errorMessage: String = ""
+    val report = Report.find(id)
+    Ok(views.html.report_review_create(report, token.get.value, errorMessage))
+  }
+
+
+  def reviewPost() = authenticatedController { implicit request =>
+    ReportReviewForm.form.bindFromRequest.fold(
+      formWithErrors => {
+        val token: Option[CSRF.Token] = CSRF.getToken
+        val errorMessage: String = "Login ID or password is incorrect"
+        BadRequest(views.html.login(token.get.value, errorMessage))
+      },
+      formData => {
+        val review = new ReportReview
+        val user = User.find(request.session.get(models.User.SESSION_USER_ID_KEY).get)
+        review.user = user
+        val report = Report.find(formData.reportId)
+        review.report = report
+        review.comment = formData.comment
+        review.action = formData.action
+        ReportReview.save(review)
+        Redirect(routes.ReportController.index())
       }
     )
   }

@@ -8,6 +8,14 @@
 <p>@report.content</p>
 <p>@report.workAt</p>
 <a href="/reports/@report.id/edit">edit</a>
+<a href="/reports/@report.id/review">review</a><br>
+@for(review <- report.reviews){
+<tr>
+    <td>@review.comment</td>
+    <td>@review.action</td>
+    <td>@review.createdAt</td>
+</tr>
+}
 @form(action = routes.ReportController.delete()) {
 <input type="hidden" name="csrfToken" value="@csrf"/>
 <input type="hidden" name="id" value="@report.id"/>

@@ -28,6 +28,14 @@ class Report {
   var workAt = new Date
 
   @Column(nullable = false)
+  @BeanProperty
+  var status: String = Report.STATUS_DRAFT
+
+  @OneToMany(mappedBy = "report")
+  @BeanProperty
+  var reviews: java.util.List[ReportReview] = new java.util.ArrayList[ReportReview]
+
+  @Column(nullable = false)
   @CreatedTimestamp
   var createdAt = new Date
 
@@ -37,17 +45,8 @@ class Report {
 }
 
 object Report extends Dao(classOf[Report]) {
-  def apply(
-             user: User,
-             content: String,
-             workAt: Date,
-           ): Report = {
-    val report = new Report()
-    report.setUser(user)
-    report.setContent(content)
-    report.setWorkAt(workAt)
-    report
-  }
-
-  def unapply(report: Report): Option[(User, String, Date)] = Some((report.getUser, report.getContent, report.getWorkAt))
+  val STATUS_DRAFT = "draft"
+  val STATUS_REQUESTED = "requested"
+  val STATUS_APPROVED = "approved"
+  val STATUS_REJECTED = "rejected"
 }

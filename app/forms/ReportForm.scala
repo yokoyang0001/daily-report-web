@@ -35,3 +35,15 @@ object ReportDeleteForm {
     )(ReportDeleteForm.apply)(ReportDeleteForm.unapply)
   )
 }
+
+case class ReportReviewForm(reportId: Long, comment: String, action: Int)
+
+object ReportReviewForm {
+  val form: Form[ReportReviewForm] = Form(
+    mapping(
+      "reportId" -> longNumber,
+      "comment" -> text,
+      "action" -> number
+    )(ReportReviewForm.apply)(ReportReviewForm.unapply)
+  )
+}
