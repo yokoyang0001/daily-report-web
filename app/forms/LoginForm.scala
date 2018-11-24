@@ -8,8 +8,8 @@ case class LoginForm(loginId: String, password: String)
 object LoginForm {
   val form: Form[LoginForm] = Form(
     mapping(
-      "loginId" -> text,
-      "password" -> text
+      "loginId" -> nonEmptyText,
+      "password" -> nonEmptyText
     )(LoginForm.apply)(LoginForm.unapply)
   )
 }

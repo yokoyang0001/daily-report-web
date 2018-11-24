@@ -8,8 +8,8 @@ case class ReportForm(content: String, workAt: String)
 object ReportForm {
   val form: Form[ReportForm] = Form(
     mapping(
-      "content" -> text,
-      "workAt" -> text,
+      "content" -> nonEmptyText(maxLength = 1000),
+      "workAt" -> nonEmptyText,
     )(ReportForm.apply)(ReportForm.unapply)
   )
 }
@@ -19,8 +19,8 @@ case class ReportUpdateForm(id: Long, content: String, workAt: String)
 object ReportUpdateForm {
   val form: Form[ReportUpdateForm] = Form(
     mapping(
-      "id" -> longNumber,
-      "content" -> text,
+      "id" -> longNumber(min = 1),
+      "content" -> nonEmptyText(maxLength = 1000),
       "workAt" -> text,
     )(ReportUpdateForm.apply)(ReportUpdateForm.unapply)
   )
@@ -31,7 +31,7 @@ case class ReportDeleteForm(id: Long)
 object ReportDeleteForm {
   val form: Form[ReportDeleteForm] = Form(
     mapping(
-      "id" -> longNumber
+      "id" -> longNumber(min = 1)
     )(ReportDeleteForm.apply)(ReportDeleteForm.unapply)
   )
 }
@@ -41,9 +41,9 @@ case class ReportReviewForm(reportId: Long, comment: String, action: Int)
 object ReportReviewForm {
   val form: Form[ReportReviewForm] = Form(
     mapping(
-      "reportId" -> longNumber,
+      "reportId" -> longNumber(min = 1),
       "comment" -> text,
-      "action" -> number
+      "action" -> number(min = 0, max = 1)
     )(ReportReviewForm.apply)(ReportReviewForm.unapply)
   )
 }
