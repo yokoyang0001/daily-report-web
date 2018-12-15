@@ -1,1 +1,2 @@
 GET     /api/ping                   controllers.ApiController.ping
+GET     /api/user/:userId           controllers.ApiController.getUser(userId: Int)
