@@ -1,16 +1,65 @@
 package models
 
+import java.util._
+
 import dao.Dao
-import play.api.libs.json.Json
+import io.ebean.annotation.{CreatedTimestamp, UpdatedTimestamp}
+import javax.persistence._
+import play.api.libs.json._
+import scala.collection.JavaConverters._
 
-case class User(id: Int, name: String)
+@Entity
+@Table(name = "users")
+class User {
 
-object User extends Dao(classOf[User]) {
-  val SESSION_USER_ID_KEY: String = "userId"
+  @Id
+  var id = 0L
 
-  val ROLE_ADMIN: Int = 0
-  val ROLE_READER: Int = 1
-  val ROLE_MEMBER: Int = 2
+  @Column(nullable = false, length = 10, unique = true)
+  var loginId: String = _
 
-  implicit val format = Json.format[User]
+  @Column(nullable = false)
+  var passwordHash: String = _
+
+  @Column(nullable = false)
+  var isManager: Boolean = false
+
+  @Column(nullable = false, length = 10)
+  var name: String = _
+
+  @Column(nullable = false)
+  var accessToken: String = _
+
+  @OneToMany(mappedBy = "user")
+  var reports: java.util.List[Report] = new java.util.ArrayList[Report]
+
+  @Column(nullable = false)
+  @CreatedTimestamp
+  var createdAt = new Date
+
+  @Column(nullable = false)
+  @UpdatedTimestamp
+  var updatedAt = new Date
+
+}
+
+object User extends Dao(classOf[User]){
+
+  implicit object UserFormat extends Format[User] {
+    def writes(user: User): JsValue = {
+      val userSeq = Seq(
+        "id" -> JsNumber(user.id),
+        "isManager" -> JsBoolean(user.isManager),
+        "name" -> JsString(user.name),
+        "accessToken" -> JsString(user.accessToken),
+        "reports" -> Json.toJson(user.reports.asScala),
+        "createdAt" -> JsString("%tY-%<tm-%<td %<tH:%<tM:%<tS" format user.createdAt),
+        "updatedAt" -> JsString("%tY-%<tm-%<td %<tH:%<tM:%<tS" format user.updatedAt)
+      )
+      JsObject(userSeq)
+    }
+
+    override def reads(json: JsValue): JsResult[User] = ???
+  }
+
 }

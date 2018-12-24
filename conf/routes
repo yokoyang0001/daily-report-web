@@ -1,2 +1,7 @@
-GET     /api/ping                   controllers.ApiController.ping
-GET     /api/user/:userId           controllers.ApiController.getUser(userId: Int)
+GET     /api/v1/home            controllers.HomeController.index
+
+POST    /api/v1/login           controllers.HomeController.login
+GET     /api/v1/user            controllers.UserController.index
+GET     /api/v1/projects        controllers.ProjectController.index
+GET     /api/v1/projects/:id    controllers.ProjectController.getById(id: Int)
+POST    /api/v1/reports         controllers.ReportController.postReport
